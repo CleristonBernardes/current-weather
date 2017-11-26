@@ -1,0 +1,60 @@
+{
+  "name": "current-weather",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/server.js",
+  "scripts": {
+    "start": "npm run build && npm run serve",
+    "build": "npm run build-ts",
+    "serve": "node dist/server.js",
+    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,node\" -c \"npm run watch-ts\" \"nodemon dist/server.js\"",
+    "build-ts": "tsc",
+    "test": "export NODE_ENV='test' && npm run build && jest --forceExit",
+    "watch-ts": "tsc -w",
+    "tslint": "tslint -c tslint.json -p tsconfig.json"
+  },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "tsconfig.json"
+      }
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "csv"
+    ],
+    "transform": {
+      "^.+\\.(ts)$": "./node_modules/ts-jest/preprocessor.js"
+    },
+    "testMatch": [
+      "**/test/**/*.test.(ts|js)"
+    ],
+    "testEnvironment": "node",
+    "notify": false,
+    "verbose": true,
+    "testResultsProcessor": "./node_modules/jest-junit-reporter"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^20.0.8",
+    "@types/node": "^8.0.28",
+    "jest": "^21.0.1",
+    "jest-junit-reporter": "^1.1.0",
+    "nodemon": "^1.12.0",
+    "ts-jest": "^21.0.0",
+    "tslint": "^5.7.0",
+    "typescript": "^2.5.2"
+  },
+  "dependencies": {
+    "async": "^2.6.0",
+    "body-parser": "^1.18.1",
+    "config": "^1.28.1",
+    "express": "^4.15.4",
+    "moment": "^2.19.2",
+    "mongoose": "^4.11.13",
+    "underscore": "^1.8.3"
+  }
+}
