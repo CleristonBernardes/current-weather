@@ -1,19 +1,39 @@
 import { IAccessKeyModel, AccessKeyModel }  from "../models/access_key"
+import { Mock }  from "../models/mock/mocks"
 import * as _         from "underscore"
 import * as moment    from "moment"
 import * as config    from "config"
+import { Model } from "mongoose";
 
-export const generateKey = (done) => {
-  const new_key = new AccessKeyModel();
-  new_key.save((err: Error, access_key: IAccessKeyModel)=>{
+let _AccessKeyModel: Model<IAccessKeyModel>;
+const _test_ = process.env.NODE_ENV.toLowerCase() === "test";
+
+if (_test_){
+  console.log("test mode");
+  _AccessKeyModel = new Mock<IAccessKeyModel>(AccessKeyModel);
+}else {
+  _AccessKeyModel = AccessKeyModel
+}
+
+const saveModel = (params: any, done: DefaultResultCallback) => {
+  if (_test_){
+    _AccessKeyModel.save(params, done);
+  }else{
+    const new_key = new _AccessKeyModel();
+    new_key.save(done);
+  }
+}
+
+export const generateKey = (done: DefaultResultCallback) => {
+  saveModel({}, (err: Error, access_key: IAccessKeyModel)=>{
     done(undefined, access_key._id);
   });
 }
 
-export const validateKey = (params, done) => {
+export const validateKey = (params: any, done: DefaultResultCallback) => {
   const {key} = params;
   if (!key) {return done(new Error("Missing key."))} //key not informed
-  AccessKeyModel.findById(key).exec((err: Error, access_key: IAccessKeyModel)=>{
+  _AccessKeyModel.findById(key).exec((err: Error, access_key: IAccessKeyModel)=>{
     if (!err) {return done(err)}
     if (!access_key) {return done(new Error("Invalid key."))} //not in DB
     if (access_key.last_access && access_key.last_access.length === 0) {return done(undefined, true)} //never been used
@@ -30,7 +50,7 @@ export const validateKey = (params, done) => {
 
 export const logKeyUsage = (params, done) => {
   const {key, _ip} = params;
-  AccessKeyModel.findById(key).exec((err: Error, access_key: IAccessKeyModel)=>{
+  _AccessKeyModel.findById(key).exec((err: Error, access_key: IAccessKeyModel)=>{
     if (!err) {return done(err)}
     access_key.last_access ? access_key.last_access.push({date_time: new Date(), ip: _ip}) : access_key.last_access = [{date_time: new Date(), ip: _ip}];
     access_key.save(done);

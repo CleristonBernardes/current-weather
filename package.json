@@ -32,7 +32,7 @@
     ],
     "testEnvironment": "node",
     "notify": false,
-    "verbose": true,
+    "verbose": false,
     "testResultsProcessor": "./node_modules/jest-junit-reporter"
   },
   "keywords": [],
@@ -53,6 +53,7 @@
     "body-parser": "^1.18.1",
     "config": "^1.28.1",
     "express": "^4.15.4",
+    "flat": "^4.0.0",
     "moment": "^2.19.2",
     "mongoose": "^4.11.13",
     "underscore": "^1.8.3"
