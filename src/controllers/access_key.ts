@@ -12,11 +12,12 @@ if (_test_){
   console.log("test mode");
   _AccessKeyModel = new Mock<IAccessKeyModel>(AccessKeyModel);
 }else {
-  _AccessKeyModel = AccessKeyModel
+  _AccessKeyModel = AccessKeyModel;
 }
 
 const saveModel = (params: any, done: DefaultResultCallback) => {
   if (_test_){
+    params = params.toObject? params.toObject() : params;
     _AccessKeyModel.save(params, done);
   }else{
     const new_key = new _AccessKeyModel();
@@ -31,10 +32,11 @@ export const generateKey = (done: DefaultResultCallback) => {
 }
 
 export const validateKey = (params: any, done: DefaultResultCallback) => {
+  console.info("params", params)
   const {key} = params;
   if (!key) {return done(new Error("Missing key."))} //key not informed
-  _AccessKeyModel.findById(key).exec((err: Error, access_key: IAccessKeyModel)=>{
-    if (!err) {return done(err)}
+  _AccessKeyModel.findById(key, (err: Error, access_key: IAccessKeyModel)=>{
+    if (err) {return done(err)}
     if (!access_key) {return done(new Error("Invalid key."))} //not in DB
     if (access_key.last_access && access_key.last_access.length === 0) {return done(undefined, true)} //never been used
 
@@ -45,14 +47,15 @@ export const validateKey = (params: any, done: DefaultResultCallback) => {
     if (last_hour_access_list.length >= config.api.hour_limit_rate){
       return done(new Error("You have reached the hour rate limit. Please try again later")); //exceeded hour rate
     }
+    done(undefined, true);
   });
 }
 
 export const logKeyUsage = (params, done) => {
   const {key, _ip} = params;
-  _AccessKeyModel.findById(key).exec((err: Error, access_key: IAccessKeyModel)=>{
-    if (!err) {return done(err)}
+  _AccessKeyModel.findById(key, (err: Error, access_key: IAccessKeyModel)=>{
+    if (err) {return done(err)}
     access_key.last_access ? access_key.last_access.push({date_time: new Date(), ip: _ip}) : access_key.last_access = [{date_time: new Date(), ip: _ip}];
-    access_key.save(done);
+    saveModel(access_key, done);
   });
 }

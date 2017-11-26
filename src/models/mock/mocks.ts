@@ -15,11 +15,12 @@ export class Mock<T extends Document> {
     this.model = model;
     this.list_data = (options && options.seed_data) ? options.seed_data : [];
   }
-  public save = (new_obj: any, done:DefaultResultCallback) => {
+  public save = (new_obj: any, done: DefaultResultCallback) => {
     let db_obj: any;
     if (new_obj._id){
       for (const data of this.list_data){
         if (data._id.toString === new_obj._id.toString){
+          console.info(flatten(data), flatten(new_obj))
           const updated_data = _.extend(flatten(data), flatten(new_obj));
           return done(undefined, updated_data);
         }
@@ -32,10 +33,13 @@ export class Mock<T extends Document> {
     } catch (err) {
       return done(err);
     }
+    this.list_data.push(db_obj);
     done(undefined, db_obj);
   }
 
   public findById = (id: any, done:DefaultResultCallback) => {
-    return _.find(this.list_data, (l)=>{ return l._id.toString === id.toString()})
+    console.info("this.list_data", this.list_data, _.find(this.list_data, (l)=> { return l._id.toString === id.toString()}))
+    if (!id) {return done(new Error("Invalid id"));}
+    done(undefined, _.find(this.list_data, (l)=> { return l._id.toString() === id.toString()}));
   }
 }
