@@ -9,13 +9,12 @@ let _AccessKeyModel: Model<IAccessKeyModel>;
 const _test_ = process.env.NODE_ENV.toLowerCase() === "test";
 
 if (_test_){
-  console.log("test mode");
   _AccessKeyModel = new Mock<IAccessKeyModel>(AccessKeyModel);
 }else {
   _AccessKeyModel = AccessKeyModel;
 }
 
-const saveModel = (params: any, done: DefaultResultCallback) => {
+export const saveModel = (params: any, done: DefaultResultCallback) => {
   if (_test_){
     params = params.toObject? params.toObject() : params;
     _AccessKeyModel.save(params, done);

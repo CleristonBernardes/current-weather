@@ -6,6 +6,6 @@ import async                    from "async"
 
 
 
-export const getAllActive = (done: DefaultResultCallback) => {
+export const findByLocation = (params: any, done: DefaultResultCallback) => {
   
 }

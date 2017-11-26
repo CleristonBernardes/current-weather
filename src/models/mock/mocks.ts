@@ -20,9 +20,8 @@ export class Mock<T extends Document> {
     if (new_obj._id){
       for (const data of this.list_data){
         if (data._id.toString === new_obj._id.toString){
-          console.info(flatten(data), flatten(new_obj))
-          const updated_data = _.extend(flatten(data), flatten(new_obj));
-          return done(undefined, updated_data);
+          const updated_data = _.extend(flatten(data.toObject()), flatten(new_obj));
+          return done(undefined, unflatten(updated_data));
         }
       }
     }else {
@@ -38,8 +37,7 @@ export class Mock<T extends Document> {
   }
 
   public findById = (id: any, done:DefaultResultCallback) => {
-    console.info("this.list_data", this.list_data, _.find(this.list_data, (l)=> { return l._id.toString === id.toString()}))
-    if (!id) {return done(new Error("Invalid id"));}
+    if (!id) {return done(new Error("Invalid id."));}
     done(undefined, _.find(this.list_data, (l)=> { return l._id.toString() === id.toString()}));
   }
 }
