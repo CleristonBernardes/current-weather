@@ -3,7 +3,7 @@
     "port": 3000
   },
   "database": {
-    "connection":  "mongodb://localhost/current-weather"
+    "connection":  "mongodb://localhost/current_weather"
   },
   "api":{
     "url" : "http://api.openweathermap.org/data/",
