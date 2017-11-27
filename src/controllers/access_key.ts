@@ -9,6 +9,7 @@ let _AccessKeyModel: Model<IAccessKeyModel>;
 const _test_ = (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() === "test");
 
 if (_test_){
+  // console.info("Testing mocked data.");
   _AccessKeyModel = new Mock<IAccessKeyModel>(AccessKeyModel);
 }else {
   _AccessKeyModel = AccessKeyModel;

@@ -32,7 +32,7 @@
     ],
     "testEnvironment": "node",
     "notify": false,
-    "verbose": false,
+    "verbose": true,
     "testResultsProcessor": "./node_modules/jest-junit-reporter"
   },
   "keywords": [],

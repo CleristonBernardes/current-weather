@@ -7,7 +7,7 @@
   },
   "api":{
     "url" : "api.openweathermap.org/data/",
-    "version": "2.5",
+    "version": "2.5/",
     "hour_limit_rate": 5,
     "status":{
       "success": 200,
