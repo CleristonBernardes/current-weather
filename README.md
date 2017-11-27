@@ -9,6 +9,7 @@ local mongoDB instance
 $ npm install
 $ npm start
 ```
+
 When executing the application for very first time 5 valid keys will be generated.
 
 ## Test considerations
