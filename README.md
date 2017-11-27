@@ -13,6 +13,14 @@ $ npm start
 ```
 When executing the application for very first time 5 valid keys will be generated.
 
+## Endpoints
+* [/key/generate](/key/generate) - (GET) Generates a new key.
+* [/weather](/weather) - (GET) Search weather description by location.
+  * compulsory params:
+    * key, city
+  * optional params:
+    * country (2-letter code)
+
 ## Test considerations
 
 ### Config
@@ -31,11 +39,3 @@ or
 ```
 npm t
 ```
-
-### Endpoints
-* [/key/generate](/key/generate) - (GET) Generates a new key.
-* [/weather](/weather) - (GET) Search weather description by location.
-  * compulsory params:
-    * key, city
-  * optional params:
-    * country (2-letter code)
