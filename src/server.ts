@@ -2,6 +2,7 @@ import * as express         from "express";
 import * as bodyParser      from "body-parser";
 import * as config          from "config";
 import * as mongoose        from "mongoose";
+import routers              from "./routers";
 
 
 /**
@@ -32,7 +33,7 @@ app.use((req, res, next) => {
  next();
 });
 
-// app.use('/', "");
+app.use("/", routers);
 
 /**
  * Start Express server.

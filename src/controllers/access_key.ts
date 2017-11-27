@@ -6,7 +6,7 @@ import * as config    from "config"
 import { Model } from "mongoose";
 
 let _AccessKeyModel: Model<IAccessKeyModel>;
-const _test_ = process.env.NODE_ENV.toLowerCase() === "test";
+const _test_ = (process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase() === "test");
 
 if (_test_){
   _AccessKeyModel = new Mock<IAccessKeyModel>(AccessKeyModel);
@@ -31,7 +31,6 @@ export const generateKey = (done: DefaultResultCallback) => {
 }
 
 export const validateKey = (params: any, done: DefaultResultCallback) => {
-  console.info("params", params)
   const {key} = params;
   if (!key) {return done(new Error("Missing key."))} //key not informed
   _AccessKeyModel.findById(key, (err: Error, access_key: IAccessKeyModel)=>{
@@ -54,6 +53,7 @@ export const logKeyUsage = (params, done) => {
   const {key, _ip} = params;
   _AccessKeyModel.findById(key, (err: Error, access_key: IAccessKeyModel)=>{
     if (err) {return done(err)}
+    if (!access_key) {return done(new Error("Invalid key."))} //not in DB
     access_key.last_access ? access_key.last_access.push({date_time: new Date(), ip: _ip}) : access_key.last_access = [{date_time: new Date(), ip: _ip}];
     saveModel(access_key, done);
   });
