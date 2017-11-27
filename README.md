@@ -4,12 +4,13 @@ Search the current weather of a given location
 
 ## Execute the API
 node 8.4.0
+
 local mongoDB instance
+
 ```sh
 $ npm install
 $ npm start
 ```
-
 When executing the application for very first time 5 valid keys will be generated.
 
 ## Test considerations
