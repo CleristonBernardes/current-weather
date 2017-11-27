@@ -20,5 +20,5 @@ export const findByLocation = (params: any, done: DefaultResultCallback) => {
     name: "London",
     cod: 200
   }
-  done(undefined, response.weather[0].description);
+  done(undefined, [response.weather[0].description]);
 }

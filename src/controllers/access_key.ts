@@ -17,7 +17,6 @@ if (_test_){
 
   //generate 5 initial keys as requested
   _AccessKeyModel.findOne({}, (err: Error, access_key: IAccessKeyModel)=>{
-    console.info("access_key", access_key)
     if (!access_key){
       async.parallel([
         generateKey, generateKey, generateKey, generateKey, generateKey,
@@ -27,7 +26,6 @@ if (_test_){
     }
   });
 }
-
 
 export const save = (params: any, done: DefaultResultCallback) => {
   if (_test_){

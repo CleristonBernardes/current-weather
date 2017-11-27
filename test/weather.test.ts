@@ -16,7 +16,8 @@ describe("weather", () => {
     return function validate(err: any, response: any) {
       expect(err).toBeUndefined();
       expect(response).toBeDefined();
-      expect(response).toBe("light intensity drizzle");
+      expect(response).toHaveLength(1);
+      expect(response[0]).toBe("light intensity drizzle");
       done();
     };
   }, {city:"Sydney"});
@@ -25,7 +26,8 @@ describe("weather", () => {
     return function validate(err: any, response: any) {
       expect(err).toBeUndefined();
       expect(response).toBeDefined();
-      expect(response).toBe("light intensity drizzle");
+      expect(response).toHaveLength(1);
+      expect(response[0]).toBe("light intensity drizzle");
       done();
     };
   }, {city:"Sydney", country:"AU"});

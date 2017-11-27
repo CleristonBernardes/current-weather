@@ -8,7 +8,6 @@ const API_URL = `${config.api.url}${config.api.version}weather`
 
 export const findByLocation = (params: any, done: DefaultResultCallback) => {
   let {city, country} = params;
-  console.info("params", params);
   if (!city) {
     return done(new Error("Please inform the city location."))
   }
@@ -19,12 +18,11 @@ export const findByLocation = (params: any, done: DefaultResultCallback) => {
     q: country ? `${city},${country}` : city
   }
   const requestObject = { uri: API_URL, method: "GET", qs: query}
-  console.info("requestObject", requestObject);
   request(requestObject, (err: Error, response: any, body: string) => {
     if (err) {return done(err);}
     const result: IWeather = JSON.parse(body);
-    console.info("result", result);
     if (!result || !result.weather || result.weather.length < 1) {return done(new Error("not-found"))}
-    done(undefined, result.weather[0].description);
+    const descriptions = result.weather.map((d)=> { return d.description});
+    done(undefined, descriptions);
   });
 }
