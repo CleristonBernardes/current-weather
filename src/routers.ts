@@ -1,4 +1,5 @@
 import * as AccessKey from "./controllers/access_key"
+import * as Weather   from "./controllers/weather"
 import * as _         from 'underscore';
 import * as config    from 'config';
 import {
@@ -63,6 +64,18 @@ const dispatch = (logKeyAccess=true) => {
   };
 }
 
-router.get(`/key/generate`, runMethod(AccessKey.generateKey, false), dispatch());
+const checkKey = (req: Request, res: Response, next: NextFunction) => {
+  let params = getParameters(req);
+  AccessKey.validateKey(params, (err: Error, result: any) => {
+    if (err) { 
+      res.status(config.api.status.unauthorized).send(err.message);
+    }else{
+      next();
+    }
+  });
+}
+
+router.get(`/key/generate`, runMethod(AccessKey.generateKey, false), dispatch(false));
+router.get(`/weather`, checkKey, runMethod(Weather.findByLocation), dispatch());
 
 export default router;

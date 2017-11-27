@@ -1,9 +1,11 @@
+import IWeather          from "../../interfaces/weather";
+
 export const findByLocation = (params: any, done: DefaultResultCallback) => {
   let {city, country} = params;
   if (!city) {
     return done(new Error("Please inform the city location."))
   }
-  const response = {
+  const response: IWeather = {
     coord: { lon: -0.13, lat: 51.51},
     weather: [{
       id: 300, main: "Drizzle", description: "light intensity drizzle", icon: "09d"

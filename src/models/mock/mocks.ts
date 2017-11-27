@@ -1,19 +1,16 @@
-import * as _         from "underscore"
-import * as mongoose  from "mongoose"
+import * as _                     from "underscore"
+import * as mongoose              from "mongoose"
 import { Model, Document, Types } from "mongoose";
 import { flatten, unflatten }     from "flat";
 
-export interface IMockOptions {
-  seed_data: any[];
-}
 
 export class Mock<T extends Document> {
   protected list_data: any[]
   protected model: Model<T>;
 
-  constructor(model: Model<T>, options?: IMockOptions) {
+  constructor(model: Model<T>) {
     this.model = model;
-    this.list_data = (options && options.seed_data) ? options.seed_data : [];
+    this.list_data = [];
   }
   public save = (new_obj: any, done: DefaultResultCallback) => {
     let db_obj: any;
@@ -40,4 +37,5 @@ export class Mock<T extends Document> {
     if (!id) {return done(new Error("Invalid id."));}
     done(undefined, _.find(this.list_data, (l)=> { return l._id.toString() === id.toString()}));
   }
+
 }

@@ -4,10 +4,12 @@ Search the current weather of a given location
 
 ## Execute the API
 node 8.4.0
+local mongoDB instance
 ```sh
 $ npm install
 $ npm start
 ```
+When executing the application for very first time 5 valid keys will be generated.
 
 ## Test considerations
 
@@ -27,3 +29,11 @@ or
 ```
 npm t
 ```
+
+### Endpoints
+* [/key/generate](/key/generate) - (GET) Generates a new key.
+* [/weather](/weather) - (GET) Search weather description by location.
+  * compulsory params:
+    * key, city
+  * optional params:
+    * country (2-letter code)

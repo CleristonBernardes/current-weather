@@ -11,19 +11,19 @@ describe("key_manager", () => {
     async.parallel({
       new_access_key: AccessKey.generateKey,
       four_access_key: (n)=> { 
-        AccessKey.saveModel({
+        AccessKey.save({
           _id:"5a1acaa8d91a8c5804336600",
           last_access: [{date_time: new Date()}, {date_time: new Date()}, {date_time: new Date()}, {date_time: new Date()}] 
         }, n) 
       },
       five_access_key: (n)=> { 
-        AccessKey.saveModel({
+        AccessKey.save({
           _id:"5a1acaa8d91a8c5804336601",
           last_access: [{date_time: new Date()}, {date_time: new Date()}, {date_time: new Date()}, {date_time: new Date()}, {date_time: new Date()}] 
         }, n)
       },
       five_access_key_valid: (n)=> { 
-        AccessKey.saveModel({
+        AccessKey.save({
           _id:"5a1b827ef5619969b5c8072e",
           last_access: [{date_time: new Date("2010/01/01")}, {date_time: new Date()}, {date_time: new Date()}, {date_time: new Date()}, {date_time: new Date()}] 
         }, n)
@@ -86,5 +86,6 @@ describe("key_manager", () => {
       done();
     });
   });
+
 
 });
